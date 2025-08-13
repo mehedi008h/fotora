@@ -1,4 +1,6 @@
+import FeaturesSection from "@/components/home/features";
 import HeroSection from "@/components/home/hero";
+import InteractiveStats from "@/components/home/stats";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
@@ -7,6 +9,8 @@ function HomePage() {
     return (
         <div className="pt-0">
             <HeroSection />
+            <InteractiveStats />
+            <FeaturesSection />
 
             {/* Final CTA Section */}
             <section className="py-20 text-center">
