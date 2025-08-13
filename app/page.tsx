@@ -1,5 +1,6 @@
 import FeaturesSection from "@/components/home/features";
 import HeroSection from "@/components/home/hero";
+import PricingSection from "@/components/home/pricing";
 import InteractiveStats from "@/components/home/stats";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -11,6 +12,7 @@ function HomePage() {
             <HeroSection />
             <InteractiveStats />
             <FeaturesSection />
+            <PricingSection />
 
             {/* Final CTA Section */}
             <section className="py-20 text-center">
