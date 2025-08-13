@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { FloatingShapes } from "@/components/global/floating-shapes";
 import { ThemeProvider } from "@/components/global/theme-provider";
+import Header from "@/components/global/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
+                    <Header />
                     <main className="min-h-screen bg-slate-900 text-white overflow-x-hidden">
                         <FloatingShapes />
                         {children}
