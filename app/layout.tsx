@@ -5,6 +5,8 @@ import "./globals.css";
 import { FloatingShapes } from "@/components/global/floating-shapes";
 import { ThemeProvider } from "@/components/global/theme-provider";
 import Header from "@/components/global/header";
+import { ClerkProvider } from "@clerk/nextjs";
+import { neobrutalism } from "@clerk/themes";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,11 +29,20 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <Header />
-                    <main className="min-h-screen bg-slate-900 text-white overflow-x-hidden">
-                        <FloatingShapes />
-                        {children}
-                    </main>
+                    <ClerkProvider
+                        publishableKey={
+                            process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+                        }
+                        appearance={{
+                            baseTheme: neobrutalism,
+                        }}
+                    >
+                        <Header />
+                        <main className="min-h-screen bg-slate-900 text-white overflow-x-hidden">
+                            <FloatingShapes />
+                            {children}
+                        </main>
+                    </ClerkProvider>
                 </ThemeProvider>
             </body>
         </html>

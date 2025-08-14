@@ -5,6 +5,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { FaRegUser } from "react-icons/fa";
+import {
+    SignedIn,
+    SignedOut,
+    SignInButton,
+    SignUpButton,
+    UserButton,
+} from "@clerk/nextjs";
+import { Button } from "../ui/button";
+import { LayoutDashboard } from "lucide-react";
 
 export default function Header() {
     const path = usePathname();
@@ -54,12 +63,32 @@ export default function Header() {
 
                 {/* Auth Actions */}
                 <div className="flex items-center gap-3 ml-10 md:ml-20">
-                    <div className="h-14 w-14 bg-neutral-500/10 rounded-full backdrop-blur-md flex justify-center items-center cursor-pointer  group">
-                        <FaRegUser
-                            size={20}
-                            className="text-white group-hover:text-cyan-400 transition-all duration-300"
-                        />
-                    </div>
+                    <SignedOut>
+                        <SignInButton>
+                            <div className="h-14 w-14 bg-neutral-500/10 rounded-full backdrop-blur-md flex justify-center items-center cursor-pointer  group">
+                                <FaRegUser
+                                    size={20}
+                                    className="text-white group-hover:text-cyan-400 transition-all duration-300"
+                                />
+                            </div>
+                        </SignInButton>
+                        {/* <SignUpButton>
+                            <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
+                                Sign Up
+                            </button>
+                        </SignUpButton> */}
+                    </SignedOut>
+                    <SignedIn>
+                        <Link href="/dashboard">
+                            <Button variant="glass" className="hidden sm:flex">
+                                <LayoutDashboard className="h-4 w-4" />
+                                <span className="hidden md:flex">
+                                    Dashboard
+                                </span>
+                            </Button>
+                        </Link>
+                        <UserButton />
+                    </SignedIn>
                 </div>
             </div>
         </header>
