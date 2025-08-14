@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import { ClerkProvider } from "@clerk/nextjs";
+import { neobrutalism } from "@clerk/themes";
+
 import { FloatingShapes } from "@/components/global/floating-shapes";
 import { ThemeProvider } from "@/components/global/theme-provider";
 import Header from "@/components/global/header";
-import { ClerkProvider } from "@clerk/nextjs";
-import { neobrutalism } from "@clerk/themes";
+import { ConvexClientProvider } from "./ConvexClientProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,11 +39,13 @@ export default function RootLayout({
                             baseTheme: neobrutalism,
                         }}
                     >
-                        <Header />
-                        <main className="min-h-screen bg-slate-900 text-white overflow-x-hidden">
-                            <FloatingShapes />
-                            {children}
-                        </main>
+                        <ConvexClientProvider>
+                            <Header />
+                            <main className="min-h-screen bg-slate-900 text-white overflow-x-hidden">
+                                <FloatingShapes />
+                                {children}
+                            </main>
+                        </ConvexClientProvider>
                     </ClerkProvider>
                 </ThemeProvider>
             </body>
