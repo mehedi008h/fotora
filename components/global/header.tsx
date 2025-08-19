@@ -14,8 +14,11 @@ import {
 } from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import { LayoutDashboard } from "lucide-react";
+import { useStoreUser } from "@/hooks/use-store-user";
+import { Authenticated, Unauthenticated } from "convex/react";
 
 export default function Header() {
+    const { isLoading } = useStoreUser();
     const path = usePathname();
 
     if (path.includes("/editor")) {
@@ -63,7 +66,7 @@ export default function Header() {
 
                 {/* Auth Actions */}
                 <div className="flex items-center gap-3 ml-10 md:ml-20">
-                    <SignedOut>
+                    <Unauthenticated>
                         <SignInButton>
                             <div className="h-14 w-14 bg-neutral-500/10 rounded-full backdrop-blur-md flex justify-center items-center cursor-pointer  group">
                                 <FaRegUser
@@ -77,8 +80,8 @@ export default function Header() {
                                 Sign Up
                             </button>
                         </SignUpButton> */}
-                    </SignedOut>
-                    <SignedIn>
+                    </Unauthenticated>
+                    <Authenticated>
                         <Link href="/dashboard">
                             <Button variant="glass" className="hidden sm:flex">
                                 <LayoutDashboard className="h-4 w-4" />
@@ -87,8 +90,20 @@ export default function Header() {
                                 </span>
                             </Button>
                         </Link>
-                        <UserButton />
-                    </SignedIn>
+                        <UserButton
+                            appearance={{
+                                elements: {
+                                    avatarBox:
+                                        "w-8 h-8 rounded-lg border border-white/20",
+                                    userButtonPopoverCard:
+                                        "shadow-xl backdrop-blur-md bg-slate-900/90 border border-white/20",
+                                    userPreviewMainIdentifier:
+                                        "font-semibold text-white",
+                                },
+                            }}
+                            afterSignOutUrl="/"
+                        />
+                    </Authenticated>
                 </div>
             </div>
         </header>
