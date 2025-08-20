@@ -1,6 +1,6 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
-import type { Id } from "./_generated/dataModel"; // <-- Generated Convex types
+import type { Doc, Id } from "./_generated/dataModel"; // <-- Generated Convex types
 
 export const store = mutation({
     args: {}, // no client-provided arguments
@@ -13,7 +13,7 @@ export const store = mutation({
         // Look up user by token
         const user = await ctx.db
             .query("users")
-            .withIndex("by_token", (q) =>
+            .withIndex("by_token", (q: any) =>
                 q.eq("tokenIdentifier", identity.tokenIdentifier)
             )
             .unique();
@@ -45,5 +45,27 @@ export const store = mutation({
         });
 
         return newUserId;
+    },
+});
+
+export const getCurrentUser = query({
+    handler: async (ctx): Promise<Doc<"users">> => {
+        const identity = await ctx.auth.getUserIdentity();
+        if (!identity) {
+            throw new Error("Not authenticated");
+        }
+
+        const user = await ctx.db
+            .query("users")
+            .withIndex("by_token", (q: any) =>
+                q.eq("tokenIdentifier", identity.tokenIdentifier)
+            )
+            .unique();
+
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        return user;
     },
 });
