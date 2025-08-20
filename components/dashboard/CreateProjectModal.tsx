@@ -12,13 +12,12 @@ import { Button } from "../ui/button";
 import { usePlanAccess } from "@/hooks/use-plan-access";
 import { Badge } from "../ui/badge";
 import { Alert, AlertDescription } from "../ui/alert";
-import { Crown, ImageIcon, Upload, X } from "lucide-react";
+import { Crown, ImageIcon, Loader2, Upload, X } from "lucide-react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { api } from "@/convex/_generated/api";
 import { useConvexMutation, useConvexQuery } from "@/hooks/use-convex-query";
 import { toast } from "sonner";
-import { Doc } from "@/convex/_generated/dataModel";
 import { useRouter } from "next/navigation";
 
 interface CreateProjectModalProps {
@@ -33,13 +32,13 @@ const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
     const [isUploading, setIsUploading] = useState(false);
     const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
-    // const { mutate: createProject } = useConvexMutation(api.projects.create);
+    const { mutate: createProject } = useConvexMutation(api.projects.create);
     const { data: projects } = useConvexQuery(api.projects.getUserProjects);
     const { canCreateProject, isFree } = usePlanAccess();
     const router = useRouter();
 
     // Check if user can create new project
-    const currentProjectCount = projects.length || 0;
+    const currentProjectCount = projects ? projects.length : 0;
     const canCreate = canCreateProject(currentProjectCount);
 
     // Handle file drop
@@ -97,20 +96,20 @@ const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
             }
 
             // Create project in Convex
-            // const projectId = await createProject({
-            //     title: projectTitle.trim(),
-            //     originalImageUrl: uploadData.url,
-            //     currentImageUrl: uploadData.url,
-            //     thumbnailUrl: uploadData.thumbnailUrl,
-            //     width: uploadData.width || 800,
-            //     height: uploadData.height || 600,
-            //     canvasState: null,
-            // });
+            const projectId = await createProject({
+                title: projectTitle.trim(),
+                originalImageUrl: uploadData.url,
+                currentImageUrl: uploadData.url,
+                thumbnailUrl: uploadData.thumbnailUrl,
+                width: uploadData.width || 800,
+                height: uploadData.height || 600,
+                canvasState: null,
+            });
 
             toast.success("Project created successfully!");
 
             // Navigate to editor
-            // router.push(`/editor/${projectId}`);
+            router.push(`/editor/${projectId}`);
         } catch (error) {
             console.error("Error creating project:", error);
             toast.error("Failed to create project. Please try again.");
@@ -265,12 +264,31 @@ const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
                     <DialogFooter className="gap-3">
                         <Button
                             variant="ghost"
+                            onClick={handleClose}
+                            disabled={isUploading}
                             className="text-white/70 hover:text-white"
                         >
                             Cancel
                         </Button>
 
-                        <Button variant="primary">"Create Project"</Button>
+                        <Button
+                            onClick={handleCreateProject}
+                            disabled={
+                                !selectedFile ||
+                                !projectTitle.trim() ||
+                                isUploading
+                            }
+                            variant="primary"
+                        >
+                            {isUploading ? (
+                                <>
+                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                    Creating...
+                                </>
+                            ) : (
+                                "Create Project"
+                            )}
+                        </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
