@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI SaaS Photo Editor
 
-## Getting Started
+A modern web-based photo editor powered by AI.  
+Upload images, apply edits, and export high-quality results in seconds.
 
-First, run the development server:
+✨ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- One-click background removal
+- Auto-enhance (lighting, color, sharpness)
+- Smart object removal (AI inpainting)
+- Crop, resize, rotate, and basic adjustments
+- Export in PNG/JPEG/WebP
+- Project dashboard with history
+- Stripe-powered subscriptions & credits
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🛠 Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Frontend:** Next.js, React, TailwindCSS
+- **Editor Engine:** Fabric.js (canvas manipulation)
+- **Auth:** Clerk
+- **Backend & Data:** Convex (serverless database + functions)
+- **Storage & CDN:** ImageKit
+- **AI Services:** (optional) OpenAI / Replicate / custom models for inpainting & auto-enhance
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🚀 Roadmap
 
-## Learn More
+- Batch photo editing
+- Team workspaces & collaboration
+- Generative fill & AI style transfer
+- Mobile-optimized editor
+- Public API for automation
 
-To learn more about Next.js, take a look at the following resources:
+💳 Pricing Model
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Free tier with limited edits
+- Subscription & credit-based plans
+- Enterprise support on request
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+📌 Getting Started
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Clone this repo
+2. Install dependencies: `npm install`
+3. Set up your `.env` with DB, Stripe, and ImageKit keys
+4. Run locally: `npm run dev`
+5. Run Convex: `npx run convex`
